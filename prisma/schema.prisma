@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Admin
+  User
+}
+
+enum Status {
+  Accept
+  Reject  
+  Pending
+}
+
+
+model IP {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  password String 
+  role     Role 
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  date        DateTime
+  venueid     Int
+  venue       Venue    @relation(fields: [venueid], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  status      Status
+
+
+  Eventattendee Eventattendee[]
+
+  
+}
+
+model Attendee {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String
+
+  registerdAt DateTime @default(now())
+
+  Eventattendee Eventattendee[]
+}
+
+model Venue {
+  id        Int    @id @unique
+  venuename String
+  address   String
+  capacity  Int
+
+  Event Event[]
+}
+
+model Eventattendee {
+
+  id Int @id @default(autoincrement())
+
+  eventid Int
+  event   Event @relation(fields: [eventid], references: [id])
+
+  attendeeid Int
+  attendee   Attendee @relation(fields: [attendeeid], references: [id])
+
+  registeredAt DateTime @default(now())
+
+  @@unique([eventid , attendeeid]) //composite key
+}
+
+model InviteDetails {
+  id Int @id @default(autoincrement())
+  from String
+  to String
+}
+
+
+
+
