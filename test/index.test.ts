@@ -1,32 +1,40 @@
-import {mockDeep,mockFn,mockReset,mockClear} from 'jest-mock-extended';
+import {mockDeep} from 'jest-mock-extended';
 import { PrismaClient } from '../generated/prisma';
+
+export const prismamock = mockDeep<PrismaClient>(); //Only, Prisma Nested Object Mocking Purpose;
+
+jest.mock("../src/config/prisma.ts",()=>({
+  __esModule : true,
+  default : prismamock
+ })) //Replace Real PrismaClient With Mock;
+
 import { Attendee } from '../src/service/attendeeservice';
-import { AttendeeCreate } from '../src/controller/attendeecontroller';
 
-const prisma = mockDeep<PrismaClient>(); //Only Prisma Nested Object Mocking Purpose;
-
-
-jest.mock("../src/prisma/prisma.ts",()=>({
-  _esModule : true,
-  default : prisma
-})) //Replace Real Prisma With Mock;
-
-describe("test",()=>{
-
-    let attendeecreate : Attendee;
-
+describe("AttendeeTest",()=>{
+    let attendee: Attendee;
     beforeEach(()=>{
-       attendeecreate = new Attendee();
+       attendee = new Attendee();
        jest.clearAllMocks();   
     })
-    test("test",()=>{
-      prisma.attendee.create.mockResolvedValue({
-        id:1,
-        name : "velu",
-        email : "velupvm1209@gmail.com",
-        registerdAt : new Date
-      })
+    test("AttendeeCreateTest",async()=>{
 
+      const tests = {id :5, name : "velu",email:"veluvpm1209@gmail.com",registerdAt : new Date}
 
+      prismamock.attendee.create.mockResolvedValue(tests)
+
+      const test = await attendee.attendeeCreate(tests)
+
+      expect(tests).toBe(test)
     })
+    test("AttendeeFindmany" , async()=>{
+
+      const tests = {id:1,name:"vishnu" , email:"vishnu123@gmail.com",registerdAt : new Date}
+
+      prismamock.attendee.findMany.mockResolvedValue([tests])
+
+      const [test] = await attendee.getattendeeList()
+       
+      expect(tests).toBe(test)
+    })
+    
 })

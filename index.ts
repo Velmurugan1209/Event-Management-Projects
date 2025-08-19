@@ -14,7 +14,7 @@ app.use('/Events' , AttendeeRoute)
 
 app.use('/Events', EventAttendeeRoute)
 
-app.use('/Events' , VenueRoute)
+app.use('/Venue' , VenueRoute)
 
 
 app.listen(3000 , ()=>{

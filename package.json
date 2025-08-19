@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx ts-node index.ts"
+    "test": "jest",
+    "start": "npx ts-node index.ts",
+    "dev" : "nodemon index.ts"
   },
-  "keywords": [] ,
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
@@ -19,6 +21,7 @@
     "fast-csv": "^5.0.2",
     "jest-mock-extended": "^4.0.0",
     "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.10",
     "prisma": "^6.11.1",
     "typescript": "^5.8.3",
     "zod": "^3.25.76"
