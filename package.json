@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "npx ts-node index.ts",
-    "dev" : "nodemon index.ts"
+    "dev": "nodemon index.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "fast-csv": "^5.0.2",
     "jest-mock-extended": "^4.0.0",
     "jsonwebtoken": "^9.0.2",
+    "node-cron": "^4.2.1",
     "nodemon": "^3.1.10",
     "prisma": "^6.11.1",
     "typescript": "^5.8.3",
